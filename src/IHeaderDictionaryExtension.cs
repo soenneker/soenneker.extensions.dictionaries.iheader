@@ -15,7 +15,7 @@ public static class IHeaderDictionaryExtension
     /// <summary>
     /// Converts headers to a compact JSON string without LINQ allocations.
     /// </summary>
-    public static string SerializeHeadersJson(this IHeaderDictionary headers)
+    public static string ToJsonString(this IHeaderDictionary headers)
     {
         var buffer = new ArrayBufferWriter<byte>(1024);
         using var writer = new Utf8JsonWriter(buffer);
