@@ -17,8 +17,17 @@ public static class IHeaderDictionaryExtension
     /// </summary>
     public static string ToJsonString(this IHeaderDictionary headers)
     {
-        var buffer = new ArrayBufferWriter<byte>(1024);
-        using var writer = new Utf8JsonWriter(buffer);
+        // If headers are small, 512 is usually enough;
+        var buffer = new ArrayBufferWriter<byte>(512);
+
+        var writerOptions = new JsonWriterOptions
+        {
+            // Safe here because we control the structure and property names come from the server header collection.
+            // (If you ever pass arbitrary untrusted property names, keep validation on.)
+            SkipValidation = true
+        };
+
+        using var writer = new Utf8JsonWriter(buffer, writerOptions);
 
         writer.WriteStartObject();
 
@@ -26,26 +35,26 @@ public static class IHeaderDictionaryExtension
         {
             writer.WritePropertyName(key);
 
-            if (values.Count <= 1)
-            {
-                writer.WriteStringValue(values.ToString());
-            }
-            else
-            {
-                writer.WriteStartArray();
+            int count = values.Count;
 
-                for (var i = 0; i < values.Count; i++)
-                {
-                    writer.WriteStringValue(values[i]);
-                }
-
-                writer.WriteEndArray();
+            if (count <= 1)
+            {
+                // Avoid StringValues.ToString() to prevent join allocations / formatting paths.
+                // If count == 0, write empty string (matches StringValues.ToString() behavior)
+                writer.WriteStringValue(count == 1 ? values[0] : string.Empty);
+                continue;
             }
+
+            writer.WriteStartArray();
+            for (int i = 0; i < count; i++)
+                writer.WriteStringValue(values[i]);
+            writer.WriteEndArray();
         }
 
         writer.WriteEndObject();
         writer.Flush();
 
+        // Final string allocation is unavoidable.
         return Encoding.UTF8.GetString(buffer.WrittenSpan);
     }
 }
