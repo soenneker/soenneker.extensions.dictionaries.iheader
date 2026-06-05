@@ -10,6 +10,9 @@ namespace Soenneker.Extensions.Dictionaries.IHeader;
 /// A collection of helpful IHeaderDictionary extension methods
 /// </summary>
 // ReSharper disable once InconsistentNaming
+/// <summary>
+/// Represents the i header dictionary extension.
+/// </summary>
 public static class IHeaderDictionaryExtension
 {
     /// <summary>
