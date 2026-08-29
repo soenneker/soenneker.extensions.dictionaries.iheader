@@ -4,10 +4,23 @@
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.extensions.dictionaries.iheader/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.extensions.dictionaries.iheader/actions/workflows/codeql.yml)
 
 # ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Extensions.Dictionaries.IHeader
-### A collection of helpful IHeaderDictionary extension methods
+A collection of helpful IHeaderDictionary extension methods.
 
 ## Installation
 
-```
+```bash
 dotnet add package Soenneker.Extensions.Dictionaries.IHeader
 ```
+
+## Quick start
+
+```csharp
+using Soenneker.Extensions.Dictionaries.IHeader;
+
+// Given an existing IHeaderDictionary named headers:
+var result = headers.ToJsonString();
+```
+
+## Common operations
+
+- `ToJsonString()` - Converts headers to a compact JSON string without LINQ allocations.
