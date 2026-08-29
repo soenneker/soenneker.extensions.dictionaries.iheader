@@ -4,7 +4,7 @@
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.extensions.dictionaries.iheader/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.extensions.dictionaries.iheader/actions/workflows/codeql.yml)
 
 # ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Extensions.Dictionaries.IHeader
-Serializes ASP.NET Core request or response headers to compact JSON without flattening multi-valued headers.
+Extension methods for inspecting, transforming, and serializing ASP.NET Core `IHeaderDictionary` request and response headers.
 
 ## Installation
 
