@@ -18,6 +18,7 @@ public static class IHeaderDictionaryExtension
     /// <summary>
     /// Converts headers to a compact JSON string without LINQ allocations.
     /// </summary>
+    /// <returns>Converts headers to a compact JSON string without LINQ allocations.</returns>
     public static string ToJsonString(this IHeaderDictionary headers)
     {
         // If headers are small, 512 is usually enough;
