@@ -4,7 +4,7 @@
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.extensions.dictionaries.iheader/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.extensions.dictionaries.iheader/actions/workflows/codeql.yml)
 
 # ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Extensions.Dictionaries.IHeader
-A collection of helpful IHeaderDictionary extension methods.
+Serializes ASP.NET Core request or response headers to compact JSON without flattening multi-valued headers.
 
 ## Installation
 
@@ -12,15 +12,19 @@ A collection of helpful IHeaderDictionary extension methods.
 dotnet add package Soenneker.Extensions.Dictionaries.IHeader
 ```
 
-## Quick start
+## Usage
 
 ```csharp
 using Soenneker.Extensions.Dictionaries.IHeader;
 
-// Given an existing IHeaderDictionary named headers:
-var result = headers.ToJsonString();
+IHeaderDictionary headers = httpContext.Request.Headers;
+string json = headers.ToJsonString();
 ```
 
-## Common operations
+Given one `Accept` value and two `X-Tag` values, the shape is:
 
-- `ToJsonString()` - Converts headers to a compact JSON string without LINQ allocations.
+```json
+{"Accept":"application/json","X-Tag":["blue","green"]}
+```
+
+Headers with zero or one value are written as JSON strings; headers with multiple values are written as arrays. The method preserves the collection's enumeration order, emits no indentation, and does not mutate the headers. The source must be non-null.
